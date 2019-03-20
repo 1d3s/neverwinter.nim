@@ -2,7 +2,7 @@
 
 import json, tables, strutils, base64
 
-import gff, util, languages
+import gff, util, languages, math
 
 proc toJson*(s: GffStruct): JSONNode =
   ## Transforms the given GffStruct into a JSONNode.
@@ -24,10 +24,10 @@ proc toJson*(s: GffStruct): JSONNode =
     of GffFieldKind.Short: result[k]["value"] = %v.getValue(GffShort).int
     of GffFieldKind.Dword: result[k]["value"] = %v.getValue(GffDword).int
     of GffFieldKind.Int: result[k]["value"] = %v.getValue(GffInt).int
-    of GffFieldKind.Float: result[k]["value"] = %v.getValue(GffFloat).float
+    of GffFieldKind.Float: result[k]["value"] = %v.getValue(GffFloat).float.round(5)
     of GffFieldKind.Dword64: result[k]["value"] = %v.getValue(GffDword64).int64
     of GffFieldKind.Int64: result[k]["value"] = %v.getValue(GffInt64).int64
-    of GffFieldKind.Double: result[k]["value"] = %v.getValue(GffDouble).float64
+    of GffFieldKind.Double: result[k]["value"] = %v.getValue(GffDouble).float64.round(5)
     of GffFieldKind.CExoString: result[k]["value"] = %v.getValue(GffCExoString)
     of GffFieldKind.CExoLocString:
       let entries = newJObject()
